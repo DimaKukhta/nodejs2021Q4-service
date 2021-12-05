@@ -1,6 +1,6 @@
 const Board = require('./board.model');
 
-const boards = [];
+let boards = [];
 
 const getAll = async () => boards;
 
@@ -26,15 +26,13 @@ const updateBoard = async (id, board) => {
   return null;
 };
 
-const deleteBoard = async (id) => {
-  let index = null;
-  boards.forEach((board, i) => {
-    if (board.id === id) {
-      index = i;
-    }
-  });
-
-  boards.slice(index, 1);
+const deleteBoard = async (boardId) => {
+  const index = boards.findIndex((element) => element.id === boardId);
+  if (index !== -1) {
+    boards = boards.filter((element) => element.id !== boardId);
+    return 204;
+  }
+  return 404;
 };
 
 module.exports = { getAll, getBoard, createBoard, updateBoard, deleteBoard };

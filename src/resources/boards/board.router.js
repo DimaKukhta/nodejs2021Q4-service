@@ -1,45 +1,44 @@
-const router = require('express').Router();
-// const Board = require('./board.model');
 const boardsService = require('./board.service');
 
-router.route('/').get(async (req, res) => {
-  const boards = await boardsService.getAll();
-  res.json(boards);
-});
+const boardRouter = (fastify, option, done) => {
+  fastify.get('/boards', async (req, reply) => {
+    const boards = await boardsService.getAll();
+    reply.send(boards);
+  });
 
-router.route('/:id').get(async (req, res) => {
-  const { id } = req.params;
-  const board = await boardsService.getBoard(id);
-  if (board) {
-    res.json(board);
-  } else {
-    res.status(404);
-  }
-  res.end();
-})
+  fastify.get('/boards/:id', async (req, reply) => {
+    const { id } = req.params;
+    const board = await boardsService.getBoard(id);
+    if (board) {
+      reply.send(board);
+    } else {
+      reply.code(404);
+    }
+  });
 
-router.route('/').post(async (req, res) => {
-  const { title, columns } = req.body;
-  const board = await boardsService.createBoard(title, columns);
-  if (board) {
-    res.status(201).json(board);
-  }
-});
+  fastify.post('/boards', async (req, reply) => {
+    const { title, columns } = req.body;
+    const board = await boardsService.createBoard(title, columns);
+    if (board) {
+      reply.code(201).send(board);
+    }
+  });
 
-router.route('/:id').put(async (req, res) => {
-  const { id } = req.params;
-  const board = req.body;
-  const updatedBoard = await boardsService.updateBoard(id, board);
-  if (updatedBoard) {
-    res.status(200).json(updatedBoard);
-  }
-});
+  fastify.put('/boards/:id', async (req, reply) => {
+    const { id } = req.params;
+    const board = req.body;
+    const updatedBoard = await boardsService.updateBoard(id, board);
+    if (updatedBoard) {
+      reply.code(200).send(updatedBoard);
+    }
+  });
 
-router.route('/:id').delete(async (req, res) => {
-  const { id } = req.params;
-  await boardsService.deleteBoard(id);
-  res.status(204);
-  res.end();
-});
+  // fastify.delete('/boards/:id', async (req, reply) => {
+  //   const { id } = req.params;
+  //   await boardsService.deleteBoard(id);
+  //   reply.code(204);
+  // });
+  done();
+};
 
-module.exports = router;
+module.exports = boardRouter;

@@ -1,49 +1,38 @@
-const router = require('express').Router();
 const tasksService = require('./task.service');
 
-router.route('/').get(async (req, res) => {
-  const { boardId } = req.params;
-  console.log(boardId);
-  const tasks = await tasksService.getAll();
-  res.json(tasks);
-});
+const taskRouter = (fastify, option, done) => {
+  fastify.get('/boards/:boardId/tasks', async (req, reply) => {
+    const { boardId } = req.params;
+    const tasks = await tasksService.getAll(boardId);
+    reply.send(tasks);
+  });
 
-router.route('/:id').get(async (req, res) => {
-  console.log(req)
-  const { id } = req.params;
-  const task = await tasksService.getTask(id);
-  if (task) {
-    res.json(task);
-  } else {
-    res.status(404);
-  }
-  res.end();
-})
+  fastify.get('/boards/:boardId/tasks/:taskId', async (req, reply) => {
+    const { boardId, taskId } = req.params;
+    const task = await tasksService.getTask(boardId, taskId);
+    reply.send(task);
+  });
 
-router.route('/').post(async (req, res) => {
-  console.log(req)
-  const taskBody = req.body;
-  console.log(req.params)
-  const task = await tasksService.createTask(taskBody);
-  if (task) {
-    res.status(201).json(task);
-  }
-});
+  fastify.post('/boards/:boardId/tasks', async (req, reply) => {
+    const task = req.body;
+    const { boardId } = req.params;
+    const newTask = await tasksService.createTask({ ...task, boardId });
+    reply.code(201).send(newTask);
+  });
 
-router.route('/:id').put(async (req, res) => {
-  const { id } = req.params;
-  const task = req.body;
-  const updatedTask = await tasksService.updateTask(id, task);
-  if (updatedTask) {
-    res.status(200).json(updatedTask);
-  }
-});
+  fastify.put('/boards/:boardId/tasks/taskId', async (req, reply) => {
+    const { taskId } = req.params;
+    const task = req.body;
+    const updatedTask = await tasksService.updateTask(taskId, task);
+    reply.code(201).send(updatedTask);
+  });
 
-router.route('/:id').delete(async (req, res) => {
-  const { id } = req.params;
-  await tasksService.deleteTask(id);
-  res.status(204);
-  res.end();
-});
+  fastify.delete('/boards/:boardId/tasks/taskId', async (req, reply) => {
+    const { taskId } = req.params;
+    await tasksService.deleteTask(taskId);
+    reply.code(204);
+  });
+  done();
+};
 
-module.exports = router;
+module.exports = taskRouter;
