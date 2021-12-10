@@ -10,34 +10,42 @@ const boardRouter = (fastify, option, done) => {
     const { id } = req.params;
     const board = await boardsService.getBoard(id);
     if (board) {
-      reply.send(board);
-    } else {
-      reply.code(404);
+      return board;
     }
+    reply.code(404);
+    return { message: 'Board not found' };
   });
 
   fastify.post('/boards', async (req, reply) => {
-    const { title, columns } = req.body;
-    const board = await boardsService.createBoard(title, columns);
+    const board = await boardsService.createBoard(req.body);
     if (board) {
-      reply.code(201).send(board);
+      reply.code(201);
+      return board;
     }
+    reply.code(400);
+    return { message: 'Bad request' };
   });
 
   fastify.put('/boards/:id', async (req, reply) => {
     const { id } = req.params;
-    const board = req.body;
-    const updatedBoard = await boardsService.updateBoard(id, board);
+    const updatedBoard = await boardsService.updateBoard(id, req.body);
     if (updatedBoard) {
-      reply.code(200).send(updatedBoard);
+      reply.code(200);
+      return updatedBoard;
     }
+    reply.code(400);
+    return { message: 'Bad request' };
   });
 
-  // fastify.delete('/boards/:id', async (req, reply) => {
-  //   const { id } = req.params;
-  //   await boardsService.deleteBoard(id);
-  //   reply.code(204);
-  // });
+  fastify.delete('/boards/:id', async (req, reply) => {
+    const { id } = req.params;
+    const result = await boardsService.deleteBoard(id);
+    if (result) {
+      reply.code(204);
+      return;
+    }
+    reply.code(400);
+  });
   done();
 };
 

@@ -1,13 +1,13 @@
 const Board = require('./board.model');
 
-let boards = [];
+const boards = [];
 
 const getAll = async () => boards;
 
 const getBoard = async (id) => boards.find((board) => board.id === id);
 
-const createBoard = async (title, columns) => {
-  const board = new Board({ title, columns });
+const createBoard = async (newBoard) => {
+  const board = new Board(newBoard);
   boards.push(board);
   return board;
 };
@@ -19,7 +19,7 @@ const updateBoard = async (id, board) => {
       index = i;
     }
   });
-  if (index) {
+  if (index !== null) {
     boards[index] = { ...boards[index], ...board };
     return boards[index];
   }
@@ -29,10 +29,10 @@ const updateBoard = async (id, board) => {
 const deleteBoard = async (boardId) => {
   const index = boards.findIndex((element) => element.id === boardId);
   if (index !== -1) {
-    boards = boards.filter((element) => element.id !== boardId);
-    return 204;
+    boards.splice(index, 1);
+    return true;
   }
-  return 404;
+  return false;
 };
 
 module.exports = { getAll, getBoard, createBoard, updateBoard, deleteBoard };

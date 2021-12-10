@@ -6,8 +6,8 @@ const getAll = async () => users;
 
 const getUser = async (id) => users.find((user) => user.id === id);
 
-const createUser = async (name, login, password) => {
-  const user = new User({ name, login, password });
+const createUser = async (newUser) => {
+  const user = new User(newUser);
   users.push(user);
   return user;
 };
@@ -19,11 +19,11 @@ const updateUser = async (id, user) => {
       index = i;
     }
   });
-  if (index) {
+  if (index !== null) {
     users[index] = { ...users[index], ...user };
     return users[index];
   }
-  return null;
+  return false;
 };
 
 const deleteUser = async (id) => {
@@ -33,8 +33,8 @@ const deleteUser = async (id) => {
       index = i;
     }
   });
-
-  users.slice(index, 1);
+  users.splice(index, 1);
+  return index !== null;
 };
 
 module.exports = { getAll, getUser, createUser, updateUser, deleteUser };

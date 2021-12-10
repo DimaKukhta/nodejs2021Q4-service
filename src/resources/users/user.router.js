@@ -2,37 +2,49 @@ const User = require('./user.model');
 const usersService = require('./user.service');
 
 const userRouter = (fastify, option, done) => {
-  fastify.get('/users', async (req, reply) => {
+  fastify.get('/users', async () => {
     const users = await usersService.getAll();
-    reply.send(users.map(User.toResponse));
+    return users.map(User.toResponse);
   });
 
   fastify.get('/users/:id', async (req, reply) => {
     const { id } = req.params;
     const user = await usersService.getUser(id);
-    reply
-      .send(User.toResponse(user));
+    if (user) {
+      return User.toResponse(user);
+    }
+    reply.code(404);
+    return { message: 'User not found' };
   });
 
   fastify.post('/users', async (req, reply) => {
-    const { name, login, password } = req.body;
-    const user = await usersService.createUser(name, login, password);
-    reply
-      .code(201) 
-      .send(User.toResponse(user));
+    const user = await usersService.createUser(req.body);
+    if (user) {
+      reply.code(201);
+      return User.toResponse(user);
+    }
+    reply.code(400);
+    return { message: 'Bad request' };
   });
 
   fastify.put('/users/:id', async (req, reply) => {
     const { id } = req.params;
-    const user = req.body;
-    const updatedUser = await usersService.updateUser(id, user);
-    reply.send(User.toResponse(updatedUser));
+    const updatedUser = await usersService.updateUser(id, { id, ...req.body });
+    if (updatedUser) {
+      return User.toResponse(updatedUser);
+    }
+    reply.code(200);
+    return { message: 'Bad request' };
   });
 
   fastify.delete('/users/:id', async (req, reply) => {
     const { id } = req.params;
-    await usersService.deleteUser(id);
-    reply.code(204);
+    const result = await usersService.deleteUser(id);
+    if (result) {
+      reply.code(204);
+      return;
+    }
+    reply.code(400);
   });
   done();
 };

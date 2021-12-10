@@ -21,7 +21,7 @@ const updateTask = async (id, task) => {
       index = i;
     }
   });
-  if (index) {
+  if (index !== null) {
     tasks[index] = { ...tasks[index], ...task };
     return tasks[index];
   }
@@ -35,12 +35,30 @@ const deleteTask = async (id) => {
       index = i;
     }
   });
-  if (index) {
-    tasks.slice(index, 1);
-    return true;
-  } 
-    return false;
-  
+  tasks.splice(index, 1);
+  return index !== null;
 };
 
-module.exports = { getAll, getTask, createTask, updateTask, deleteTask };
+const deleteBoardTasks = async (boardId) => {
+  const boardTasks = tasks.filter((task) => task.boardId === boardId);
+  boardTasks.forEach((task) => {
+    deleteTask(task.id);
+  });
+};
+
+const updateDeleteUserTasks = async (userId) => {
+  const userTasks = tasks.filter((task) => task.userId === userId);
+  userTasks.forEach((task) => {
+    updateTask(task.id, { ...task, userId: null });
+  }) 
+};
+
+module.exports = {
+  getAll,
+  getTask,
+  createTask,
+  updateTask,
+  deleteTask,
+  deleteBoardTasks,
+  updateDeleteUserTasks,
+};
