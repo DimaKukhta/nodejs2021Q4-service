@@ -1,12 +1,24 @@
-const boardsService = require('./board.service');
+import { FastifyInstance, FastifyPluginOptions } from "fastify";
+import { IBoard } from "./board.interface";
 
-const boardRouter = (fastify, option, done) => {
+import * as boardsService from './board.service';
+
+interface IParams {
+  id: string;
+}
+
+
+const boardRouter = (
+  fastify: FastifyInstance,
+  option: FastifyPluginOptions,
+  done: () => void
+) => {
   fastify.get('/boards', async (req, reply) => {
     const boards = await boardsService.getAll();
     reply.send(boards);
   });
 
-  fastify.get('/boards/:id', async (req, reply) => {
+  fastify.get<{ Params: IParams }>('/boards/:id', async (req, reply) => {
     const { id } = req.params;
     const board = await boardsService.getBoard(id);
     if (board) {
@@ -16,7 +28,7 @@ const boardRouter = (fastify, option, done) => {
     return { message: 'Board not found' };
   });
 
-  fastify.post('/boards', async (req, reply) => {
+  fastify.post<{ Params: IParams, Body: IBoard }>('/boards', async (req, reply) => {
     const board = await boardsService.createBoard(req.body);
     if (board) {
       reply.code(201);
@@ -26,7 +38,7 @@ const boardRouter = (fastify, option, done) => {
     return { message: 'Bad request' };
   });
 
-  fastify.put('/boards/:id', async (req, reply) => {
+  fastify.put<{ Params: IParams, Body: IBoard }>('/boards/:id', async (req, reply) => {
     const { id } = req.params;
     const updatedBoard = await boardsService.updateBoard(id, req.body);
     if (updatedBoard) {
@@ -37,7 +49,7 @@ const boardRouter = (fastify, option, done) => {
     return { message: 'Bad request' };
   });
 
-  fastify.delete('/boards/:id', async (req, reply) => {
+  fastify.delete<{ Params: IParams }>('/boards/:id', async (req, reply) => {
     const { id } = req.params;
     const result = await boardsService.deleteBoard(id);
     if (result) {
@@ -49,4 +61,4 @@ const boardRouter = (fastify, option, done) => {
   done();
 };
 
-module.exports = boardRouter;
+export default boardRouter;

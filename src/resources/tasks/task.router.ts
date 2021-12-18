@@ -1,13 +1,25 @@
+import { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import { ITask } from './task.interface';
+
 const tasksService = require('./task.service');
 
-const taskRouter = (fastify, option, done) => {
-  fastify.get('/boards/:boardId/tasks', async (req) => {
+interface IParams {
+  taskId?: string,
+  boardId: string
+}
+
+const taskRouter = (
+  fastify: FastifyInstance,
+  option: FastifyPluginOptions,
+  done: () => void
+) => {
+  fastify.get<{ Params: IParams }>('/boards/:boardId/tasks', async (req) => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
     return tasks;
   });
 
-  fastify.get('/boards/:boardId/tasks/:taskId', async (req, reply) => {
+  fastify.get<{ Params: IParams }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
     const { boardId, taskId } = req.params;
     const task = await tasksService.getTask(boardId, taskId);
     if (task) {
@@ -17,7 +29,7 @@ const taskRouter = (fastify, option, done) => {
     return { message: 'Task not found' };
   });
 
-  fastify.post('/boards/:boardId/tasks', async (req, reply) => {
+  fastify.post<{ Params: IParams, Body: ITask }>('/boards/:boardId/tasks', async (req, reply) => {
     const { boardId } = req.params;
     const newTask = await tasksService.createTask({ ...req.body, boardId });
     if (newTask) {
@@ -28,7 +40,7 @@ const taskRouter = (fastify, option, done) => {
     return { message: 'Bad request' };
   });
 
-  fastify.put('/boards/:boardId/tasks/:taskId', async (req, reply) => {
+  fastify.put<{ Params: IParams }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
     const { taskId } = req.params;
     const updatedTask = await tasksService.updateTask(taskId, req.body);
     if (updatedTask) {
@@ -38,7 +50,7 @@ const taskRouter = (fastify, option, done) => {
     return { message: 'Bad request' };
   });
 
-  fastify.delete('/boards/:boardId/tasks/:taskId', async (req, reply) => {
+  fastify.delete<{ Params: IParams }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
     const { taskId } = req.params;
     const result = await tasksService.deleteTask(taskId);
     if (result) {
@@ -50,4 +62,4 @@ const taskRouter = (fastify, option, done) => {
   done();
 };
 
-module.exports = taskRouter;
+export default taskRouter;

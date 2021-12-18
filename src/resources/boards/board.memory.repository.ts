@@ -1,18 +1,20 @@
-const Board = require('./board.model');
+import { IBoard } from "./board.interface";
 
-const boards = [];
+import Board from './board.model';
 
-const getAll = async () => boards;
+const boards: Array<IBoard> = [];
 
-const getBoard = async (id) => boards.find((board) => board.id === id);
+export const getAll = async () => boards;
 
-const createBoard = async (newBoard) => {
+export const getBoard = async (id: IBoard['id']) => boards.find((board) => board.id === id);
+
+export const createBoard = async (newBoard: IBoard) => {
   const board = new Board(newBoard);
   boards.push(board);
   return board;
 };
 
-const updateBoard = async (id, board) => {
+export const updateBoard = async (id: IBoard['id'], board: IBoard) => {
   let index = null;
   boards.forEach((oldBoard, i) => {
     if (oldBoard.id === id) {
@@ -26,7 +28,7 @@ const updateBoard = async (id, board) => {
   return null;
 };
 
-const deleteBoard = async (boardId) => {
+export const deleteBoard = async (boardId: IBoard['id']) => {
   const index = boards.findIndex((element) => element.id === boardId);
   if (index !== -1) {
     boards.splice(index, 1);
@@ -34,5 +36,3 @@ const deleteBoard = async (boardId) => {
   }
   return false;
 };
-
-module.exports = { getAll, getBoard, createBoard, updateBoard, deleteBoard };

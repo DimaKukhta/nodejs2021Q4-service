@@ -9,4 +9,4 @@ app.register(userRouter);
 app.register(boardRouter);
 app.register(taskRouter);
 
-module.exports = app;
+export default app;

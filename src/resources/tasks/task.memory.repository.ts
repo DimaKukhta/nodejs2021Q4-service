@@ -1,20 +1,22 @@
-const Task = require('./task.model');
+import { ITask } from './task.interface';
 
-const tasks = [];
+import Task from './task.model';
 
-const getAll = async (boardId) =>
+const tasks: Array<ITask> = [];
+
+export const getAll = async (boardId: ITask['boardId']) =>
   tasks.filter((task) => task.boardId === boardId);
 
-const getTask = async (boardId, taskId) =>
+export const getTask = async (boardId: ITask['boardId'], taskId: ITask['id']) =>
   tasks.find((task) => task.id === taskId && task.boardId === boardId);
 
-const createTask = async (task) => {
+export const createTask = async (task: ITask) => {
   const newTask = new Task(task);
   tasks.push(newTask);
   return newTask;
 };
 
-const updateTask = async (id, task) => {
+export const updateTask = async (id: ITask['id'], task: ITask) => {
   let index = null;
   tasks.forEach((oldTask, i) => {
     if (oldTask.id === id) {
@@ -28,37 +30,29 @@ const updateTask = async (id, task) => {
   return null;
 };
 
-const deleteTask = async (id) => {
-  let index = null;
+export const deleteTask = async (id: ITask['id']) => {
+  let index = -1;
   tasks.forEach((task, i) => {
     if (task.id === id) {
       index = i;
     }
   });
-  tasks.splice(index, 1);
-  return index !== null;
+  if (index !== -1) {
+    tasks.splice(index, 1);
+  }
+  return index !== -1;
 };
 
-const deleteBoardTasks = async (boardId) => {
+export const deleteBoardTasks = async (boardId: ITask['boardId']) => {
   const boardTasks = tasks.filter((task) => task.boardId === boardId);
   boardTasks.forEach((task) => {
     deleteTask(task.id);
   });
 };
 
-const updateDeleteUserTasks = async (userId) => {
+export const updateDeleteUserTasks = async (userId: ITask['userId']) => {
   const userTasks = tasks.filter((task) => task.userId === userId);
   userTasks.forEach((task) => {
     updateTask(task.id, { ...task, userId: null });
-  }) 
-};
-
-module.exports = {
-  getAll,
-  getTask,
-  createTask,
-  updateTask,
-  deleteTask,
-  deleteBoardTasks,
-  updateDeleteUserTasks,
+  });
 };
