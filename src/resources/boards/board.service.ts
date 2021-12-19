@@ -32,7 +32,7 @@ export const createBoard = (board: IBoard) => boardsRepo.createBoard(board);
 export const updateBoard = (id: IBoard['id'], board: IBoard) => boardsRepo.updateBoard(id, board);
 
 /**
- * Should return function from boardsRepo to delete a board
+ * Should delete tasks and return function from boardsRepo to delete a board
  * @param id - board id
  * @returns Function: () => Promise<boolean>
  */

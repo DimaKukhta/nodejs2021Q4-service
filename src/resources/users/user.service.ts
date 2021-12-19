@@ -31,7 +31,7 @@ export const createUser = (user: IUser) => usersRepo.createUser(user);
 export const updateUser = (id: IUser['id'], user: IUser) => usersRepo.updateUser(id, user);
 
 /**
- * Should return function from userRepo to delete user
+ * Should update users and return function from userRepo to delete user
  * @param id - user Id
  * @returns Function: () => Promise<boolean>
  */
