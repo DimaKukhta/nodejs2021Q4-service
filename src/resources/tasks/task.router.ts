@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
 import { ITask } from './task.interface';
 
-const tasksService = require('./task.service');
+import * as tasksService from './task.service';
 
 interface IParams {
   taskId?: string,
@@ -52,7 +52,7 @@ const taskRouter = (
   /**
    * Should update a task and send it
    */
-  fastify.put<{ Params: IParams }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
+  fastify.put<{ Params: IParams, Body: ITask }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
     const { taskId } = req.params;
     const updatedTask = await tasksService.updateTask(taskId, req.body);
     if (updatedTask) {

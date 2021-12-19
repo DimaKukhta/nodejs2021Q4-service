@@ -1,10 +1,10 @@
 import app from './app';
 
-const { PORT } = require('./common/config');
+import { PORT } from './common/config';
 
 const start = async () => {
   try {
-    await app.listen(PORT);
+    await app.listen(PORT || 3000);
   } catch (e) {
     app.log.error(e);
     process.exit(1);
