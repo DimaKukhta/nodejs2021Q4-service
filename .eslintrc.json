@@ -39,6 +39,7 @@
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "node/no-missing-require": "off",
-    "node/no-missing-import": "off"
+    "node/no-missing-import": "off",
+    "no-array-constructor": "off"
   }
 }

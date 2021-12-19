@@ -13,11 +13,17 @@ const boardRouter = (
   option: FastifyPluginOptions,
   done: () => void
 ) => {
+  /**
+   * Should get all board and send them
+   */
   fastify.get('/boards', async (req, reply) => {
     const boards = await boardsService.getAll();
     reply.send(boards);
   });
 
+  /**
+   * Should get board by id and send it
+   */
   fastify.get<{ Params: IParams }>('/boards/:id', async (req, reply) => {
     const { id } = req.params;
     const board = await boardsService.getBoard(id);
@@ -28,6 +34,9 @@ const boardRouter = (
     return { message: 'Board not found' };
   });
 
+  /**
+   * Should create new board and send it
+   */
   fastify.post<{ Params: IParams, Body: IBoard }>('/boards', async (req, reply) => {
     const board = await boardsService.createBoard(req.body);
     if (board) {
@@ -38,6 +47,9 @@ const boardRouter = (
     return { message: 'Bad request' };
   });
 
+  /**
+   * Should update a board by id and send it
+   */
   fastify.put<{ Params: IParams, Body: IBoard }>('/boards/:id', async (req, reply) => {
     const { id } = req.params;
     const updatedBoard = await boardsService.updateBoard(id, req.body);
@@ -49,6 +61,9 @@ const boardRouter = (
     return { message: 'Bad request' };
   });
 
+  /**
+   * Should delete a delete board by id
+   */
   fastify.delete<{ Params: IParams }>('/boards/:id', async (req, reply) => {
     const { id } = req.params;
     const result = await boardsService.deleteBoard(id);

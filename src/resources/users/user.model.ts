@@ -22,6 +22,11 @@ class User {
     this.password = password;
   }
 
+  /**
+   * Should hidden password field from user instance
+   * @param user - instance of the User class
+   * @returns Object<{id, name, login}>
+   */
   static toResponse(user: IUser): IUser {
     const { id, name, login }: IUser = user;
     return { id, name, login };

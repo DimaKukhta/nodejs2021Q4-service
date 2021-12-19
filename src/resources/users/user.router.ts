@@ -13,11 +13,17 @@ const userRouter = (
   option: FastifyPluginOptions,
   done: () => void
 ) => {
+  /**
+   * Should get all users and send them
+   */
   fastify.get('/users', async () => {
     const users = await usersService.getAll();
     return users.map(User.toResponse);
   });
 
+  /**
+   * Should get a user by id and send it
+   */
   fastify.get<{ Params: IParams }>('/users/:id', async (req, reply) => {
     const { id } = req.params;
     const user = await usersService.getUser(id);
@@ -28,6 +34,9 @@ const userRouter = (
     return { message: 'User not found' };
   });
 
+  /**
+   * Should create a new user and send it
+   */
   fastify.post<{ Body: IUser }>('/users', async (req, reply) => {
     const user: IUser = await usersService.createUser(req.body);
     if (user) {
@@ -38,6 +47,9 @@ const userRouter = (
     return { message: 'Bad request' };
   });
 
+  /**
+   * Should update a user and send it
+   */
   fastify.put<{ Params: IParams; Body: IUser }>(
     '/users/:id',
     async (req, reply) => {
@@ -54,6 +66,9 @@ const userRouter = (
     }
   );
 
+  /**
+   * Should delete a user
+   */
   fastify.delete<{ Params: IParams }>('/users/:id', async (req, reply) => {
     const { id } = req.params;
     const result = await usersService.deleteUser(id);
