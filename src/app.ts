@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-import */
 import fastify from 'fastify';
 import userRouter from'./resources/users/user.router';
 import boardRouter from'./resources/boards/board.router';

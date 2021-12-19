@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-import */
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
 import { IUser } from './user.interface';
 

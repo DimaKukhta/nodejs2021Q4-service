@@ -22,7 +22,8 @@
     "noInlineConfig": true,
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "tryExtensions": [".js", ".json", ".node", ".ts", ".d.ts"]
       }
     }
   },
@@ -38,8 +39,6 @@
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
-    "node/no-missing-require": "off",
-    "node/no-missing-import": "off",
     "no-array-constructor": "off"
   }
 }

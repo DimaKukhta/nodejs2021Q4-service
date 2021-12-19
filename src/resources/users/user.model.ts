@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-import */
 import { v4 } from 'uuid';
 import { IUser } from "./user.interface";
 

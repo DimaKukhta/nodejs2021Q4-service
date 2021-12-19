@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-import */
 import app from './app';
 
 import { PORT } from './common/config';

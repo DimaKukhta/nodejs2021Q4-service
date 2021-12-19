@@ -1,12 +1,11 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { IBoard } from "./board.interface";
 
-import * as boardsService from './board.service';
+import * as boardsService from './boardS.service';
 
 interface IParams {
   id: string;
 }
-
 
 const boardRouter = (
   fastify: FastifyInstance,

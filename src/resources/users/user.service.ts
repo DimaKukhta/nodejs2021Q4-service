@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-import */
 import { IUser } from "./user.interface";
 
 import * as usersRepo from './user.memory.repository';
