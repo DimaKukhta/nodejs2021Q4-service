@@ -18,7 +18,7 @@ const userRouter = (
    * Should get all users and send them
    */
   fastify.get('/users', async () => {
-    const users = await usersService.getAll();
+    const users = await usersService.getAll()
     return users.map(User.toResponse);
   });
 

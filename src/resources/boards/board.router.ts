@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { IBoard } from "./board.interface";
 
-import * as boardsService from './boardS.service';
+import * as boardsService from './board.service';
 
 interface IParams {
   id: string;
