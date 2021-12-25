@@ -12,8 +12,20 @@ const logLevel =
 
 const logger: Logger = pino({
   level: logLevel,
+  serializers: {
+    req (request) {
+      return { url: request.url, reqestParams: request.params }
+    }
+  },
   transport: {
     targets: [
+      {
+        target: 'pino-pretty',
+        level: 'trace',
+        options: {
+          colorize: true,
+        },
+      },
       {
         target: 'pino/file',
         level: 'trace',
@@ -24,20 +36,8 @@ const logger: Logger = pino({
         level: 'error',
         options: { destination: './logs/error.txt', mkdir: true },
       },
-      {
-        target: 'pino-pretty',
-        level: 'trace',
-        options: {
-          colorize: true,
-        },
-      },
     ],
   },
-  serializers: {
-    req (request) {
-      return { url: request.url, reqestParams: request.params }
-    }
-  }
 });
 
 export default logger;

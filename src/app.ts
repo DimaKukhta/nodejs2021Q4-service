@@ -10,9 +10,8 @@ const app = fastify({
 });
 
 app.addHook('preHandler', (req, reply, done) => {
-  if (req.body) {
-    req.log.info({ body: req.body }, 'body');
-  }
+  const body = req?.body ? req.body : {};
+  req.log.info({ body }, 'body');
   done();
 });
 
