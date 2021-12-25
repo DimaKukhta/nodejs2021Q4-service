@@ -1,35 +1,36 @@
 import fastify from 'fastify';
+import { isHttpError } from 'http-errors';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
 import logger from './logger';
 
 const app = fastify({
-  logger
+  logger,
 });
 
-app.addHook('preHandler', (req: any, reply, done) => {
+app.addHook('preHandler', (req, reply, done) => {
   if (req.body) {
-    req.log.info({ body: req.body }, 'body')
+    req.log.info({ body: req.body }, 'body');
   }
-  done()
-})
+  done();
+});
 
 app.register(userRouter);
 app.register(boardRouter);
 app.register(taskRouter);
 
-// app.setErrorHandler((err, _req, res): void => {
-//   logger.error(err);
+app.setErrorHandler((err, _req, res): void => {
+  logger.error(err);
 
-//   if (isHttpError(err)) {
-//     res.status(err.statusCode).send(err.message);
-//   } else if (err.validation) {
-//     res.status(400).send(err);
-//   } else {
-//     res.status(500).send('Unexpected error');
-//   }
-// });
+  if (isHttpError(err)) {
+    res.status(err.statusCode).send(err.message);
+  } else if (err.validation) {
+    res.status(400).send(err);
+  } else {
+    res.status(500).send('Unexpected error');
+  }
+});
 
 process.on('uncaughtException', (err, origin) => {
   logger.fatal(err, 'uncaughtException', { origin });
