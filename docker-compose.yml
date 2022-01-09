@@ -17,6 +17,8 @@ services:
     volumes:
       - logs:/app/logs
       - ./:/app
+    networks:
+      - network
   postgres:
     build: './db/'
     ports:
@@ -27,3 +29,8 @@ services:
       - POSTGRESS_DB=${POSTGRESS_DB}
     volumes:
       - db:/var/lib/postgresql/data
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge 
