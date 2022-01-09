@@ -1609,3 +1609,16 @@
 {"level":30,"time":1640440389292,"pid":5028,"hostname":"dkukhtapc","reqId":"req-3p","res":{"statusCode":404},"responseTime":0.2678999900817871,"msg":"request completed"}
 {"level":30,"time":1640440389295,"pid":5028,"hostname":"dkukhtapc","reqId":"req-3q","req":{"url":"/boards/e6c76a9c-b3c4-42c1-aa94-ed0af55d2bf3","reqestParams":{"id":"e6c76a9c-b3c4-42c1-aa94-ed0af55d2bf3"}},"msg":"incoming request"}
 {"level":30,"time":1640440389295,"pid":5028,"hostname":"dkukhtapc","reqId":"req-3q","res":{"statusCode":204},"responseTime":0.5378000140190125,"msg":"request completed"}
+{"level":30,"time":1640440444728,"pid":11904,"hostname":"dkukhtapc","msg":"Server listening at http://127.0.0.1:4000"}
+{"level":30,"time":1640440445558,"pid":11904,"hostname":"dkukhtapc","reqId":"req-1","req":{"url":"/users/123","reqestParams":{"id":"123"}},"msg":"incoming request"}
+{"level":30,"time":1640440445558,"pid":11904,"hostname":"dkukhtapc","reqId":"req-1","body":{},"msg":"body"}
+{"level":30,"time":1640440445563,"pid":11904,"hostname":"dkukhtapc","reqId":"req-1","res":{"statusCode":404},"responseTime":4.351700007915497,"msg":"request completed"}
+{"level":30,"time":1640440460646,"pid":11904,"hostname":"dkukhtapc","reqId":"req-2","req":{"url":"/users","reqestParams":{}},"msg":"incoming request"}
+{"level":30,"time":1640440460646,"pid":11904,"hostname":"dkukhtapc","reqId":"req-2","body":{},"msg":"body"}
+{"level":30,"time":1640440460647,"pid":11904,"hostname":"dkukhtapc","reqId":"req-2","res":{"statusCode":200},"responseTime":0.8740999698638916,"msg":"request completed"}
+{"level":30,"time":1641398599908,"pid":1740,"hostname":"dkukhtapc","msg":"Server listening at http://127.0.0.1:4000"}
+{"level":30,"time":1641461517662,"pid":3940,"hostname":"dkukhtapc","msg":"Server listening at http://127.0.0.1:4000"}
+{"level":30,"time":1641461520920,"pid":3940,"hostname":"dkukhtapc","reqId":"req-1","req":{"url":"/users","reqestParams":{}},"msg":"incoming request"}
+{"level":30,"time":1641461520921,"pid":3940,"hostname":"dkukhtapc","reqId":"req-1","body":{},"msg":"body"}
+{"level":30,"time":1641461520928,"pid":3940,"hostname":"dkukhtapc","reqId":"req-1","res":{"statusCode":200},"responseTime":8.27869999408722,"msg":"request completed"}
+{"level":30,"time":1641662876281,"pid":9968,"hostname":"dkukhtapc","msg":"Server listening at http://0.0.0.0:4000"}

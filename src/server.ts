@@ -5,7 +5,7 @@ import { PORT } from './common/config';
 
 const start = async () => {
   try {
-    await app.listen(PORT || 3000);
+    await app.listen(PORT || 3000, '0.0.0.0');
   } catch (e) {
     app.log.error(e);
     process.exit(1);
