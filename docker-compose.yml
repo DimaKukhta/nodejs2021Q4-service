@@ -1,0 +1,36 @@
+version: '3.8'
+
+volumes:
+  db:
+  logs:
+
+services:
+  node:
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+    - postgres
+    environment:
+      - PORT=4000
+    restart: on-failure
+    volumes:
+      - logs:/app/logs
+      - ./:/app
+    networks:
+      - network
+  postgres:
+    build: './db/'
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRESS_DB=${POSTGRESS_DB}
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge 
