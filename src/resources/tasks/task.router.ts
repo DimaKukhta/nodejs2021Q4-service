@@ -4,7 +4,7 @@ import { ITask } from './task.interface';
 import * as tasksService from './task.service';
 
 interface IParams {
-  taskId?: string,
+  taskId: string,
   boardId: string
 }
 
@@ -52,7 +52,7 @@ const taskRouter = (
   /**
    * Should update a task and send it
    */
-  fastify.put<{ Params: IParams, Body: ITask }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
+  fastify.put<{ Params: { taskId: string }, Body: ITask }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
     const { taskId } = req.params;
     const updatedTask = await tasksService.updateTask(taskId, req.body);
     if (updatedTask) {
@@ -65,7 +65,7 @@ const taskRouter = (
   /**
    * Should delete a task by id
    */
-  fastify.delete<{ Params: IParams }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
+  fastify.delete<{ Params: { taskId: string } }>('/boards/:boardId/tasks/:taskId', async (req, reply) => {
     const { taskId } = req.params;
     const result = await tasksService.deleteTask(taskId);
     if (result) {

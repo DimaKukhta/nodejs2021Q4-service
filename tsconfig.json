@@ -7,7 +7,9 @@
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "exclude": ["./node_modules"]
 }

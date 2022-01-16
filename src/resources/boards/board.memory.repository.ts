@@ -1,21 +1,26 @@
+import { getRepository } from "typeorm";
 import { IBoard } from "./board.interface";
 
 import Board from './board.model';
-
-const boards: Array<IBoard> = [];
 
 /**
  * Should get array of boards
  * @returns array of boards or empty array
  */
-export const getAll = async () => boards;
+export const getAll = async () => {
+  const allBoards = await getRepository(Board).find();
+  return allBoards;  
+};
 
 /**
  * Should get board by id
  * @param id - board Id
  * @returns board
  */
-export const getBoard = async (id: IBoard['id']) => boards.find((board) => board.id === id);
+export const getBoard = async (id: IBoard['id']) => {
+  const board = await getRepository(Board).findOne(id);
+  return board;
+};
 
 /**
  * Should create new board
@@ -23,8 +28,7 @@ export const getBoard = async (id: IBoard['id']) => boards.find((board) => board
  * @returns new board
  */
 export const createBoard = async (newBoard: IBoard) => {
-  const board = new Board(newBoard);
-  boards.push(board);
+  const board = await getRepository(Board).save(newBoard);
   return board;
 };
 
@@ -35,17 +39,8 @@ export const createBoard = async (newBoard: IBoard) => {
  * @returns updated board or null
  */
 export const updateBoard = async (id: IBoard['id'], board: IBoard) => {
-  let index = null;
-  boards.forEach((oldBoard, i) => {
-    if (oldBoard.id === id) {
-      index = i;
-    }
-  });
-  if (index !== null) {
-    boards[index] = { ...boards[index], ...board };
-    return boards[index];
-  }
-  return null;
+  const updatedBoard = await getRepository(Board).update(id, board);
+  return updatedBoard;
 };
 
 /**
@@ -54,10 +49,6 @@ export const updateBoard = async (id: IBoard['id'], board: IBoard) => {
  * @returns true if board has been deleted or false otherwise
  */
 export const deleteBoard = async (boardId: IBoard['id']) => {
-  const index = boards.findIndex((element) => element.id === boardId);
-  if (index !== -1) {
-    boards.splice(index, 1);
-    return true;
-  }
-  return false;
+  const board = await getRepository(Board).delete(boardId);
+  return board;
 };

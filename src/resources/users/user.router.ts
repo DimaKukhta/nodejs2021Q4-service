@@ -56,8 +56,8 @@ const userRouter = (
     async (req, reply) => {
       const { id } = req.params;
       const updatedUser = await usersService.updateUser(id, {
-        id,
         ...req.body,
+        id,
       });
       if (updatedUser) {
         return User.toResponse(updatedUser);

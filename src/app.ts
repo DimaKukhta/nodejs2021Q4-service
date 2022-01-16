@@ -4,6 +4,7 @@ import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
 import logger from './logger';
+import 'reflect-metadata';
 
 const app = fastify({
   logger,

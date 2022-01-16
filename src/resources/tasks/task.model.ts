@@ -1,18 +1,43 @@
 import { v4 } from 'uuid';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import User from '../users/user.model';
+import Board from '../boards/board.model';
 
+@Entity()
 class Task {
+  @PrimaryColumn()
   id: string;
 
+  @Column({ length: 50, type: 'varchar' })
   title: string;
 
+  @Column('int')
   order: number;
 
+  @Column('varchar')
   description: string;
 
+  @Column({ nullable: true, type: 'uuid' })
   userId: string | null;
 
+  @ManyToOne(() => User, (task) => task.id)
+  @JoinColumn({ name: 'userId' })
+  user!: User | null;
+
+  @Column({ nullable: true, type: 'uuid' })
   boardId: string | null;
 
+  @ManyToOne(() => Board, (board) => board.id)
+  @JoinColumn({ name: 'boardId' })
+  board!: Board;
+
+  @Column({ nullable: true, type: 'uuid' })
   columnId: string | null;
 
   constructor({

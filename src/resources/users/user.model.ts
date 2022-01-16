@@ -1,14 +1,20 @@
-/* eslint-disable node/no-missing-import */
 import { v4 } from 'uuid';
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import { IUser } from "./user.interface";
+import 'reflect-metadata';
 
-class User {
+@Entity()
+export default class User {
+  @PrimaryGeneratedColumn('uuid')
   id: IUser['id'];
 
+  @Column({ length: 50, type: 'varchar' })
   name: IUser['name'];
 
+  @Column({ length: 50, type: 'varchar' })
   login: IUser['login'];
 
+  @Column({ length: 50, type: 'varchar' })
   password: IUser['password'];
 
   constructor({
@@ -33,5 +39,3 @@ class User {
     return { id, name, login };
   }
 }
-
-export default User;

@@ -12,11 +12,11 @@ services:
     depends_on:
     - postgres
     environment:
-      - PORT=4000
+      - PORT=${PORT}
     restart: on-failure
     volumes:
-      - logs:/app/logs
-      - ./:/app
+      - logs:/usr/src/app/logs
+      - ./src:/usr/src/app/src
     networks:
       - network
   postgres:

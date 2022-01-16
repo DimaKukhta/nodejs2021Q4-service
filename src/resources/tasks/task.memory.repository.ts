@@ -1,17 +1,20 @@
+import { getRepository } from 'typeorm';
 import { IUser } from '../users/user.interface';
 import { ITask } from './task.interface';
 
 import Task from './task.model';
 
-const tasks: Array<ITask> = [];
+// const tasks: Array<ITask> = [];
 
 /**
  * Should return array of tasks where id of board === boardId
  * @param boardId - Id of board
  * @returns array of tasks or emty array if tasks not exists
  */
-export const getAll = async (boardId: ITask['boardId']) =>
-  tasks.filter((task) => task.boardId === boardId);
+export const getAll = async (boardId: ITask['boardId']) => {
+  const allTasks = await getRepository(Task).find({ where: { boardId }});
+  return allTasks;
+}
 
 /**
  * Should return task
@@ -19,8 +22,10 @@ export const getAll = async (boardId: ITask['boardId']) =>
  * @param taskId 
  * @returns task  of false if task not exist
  */
-export const getTask = async (boardId: ITask['boardId'], taskId: ITask['id']) =>
-  tasks.find((task) => task.id === taskId && task.boardId === boardId);
+export const getTask = async (boardId: ITask['boardId'], taskId: ITask['id']) => {
+  const task = await getRepository(Task).findOne({ where: { id: taskId, boardId } });
+  return task;
+}
 
 /**
  * Should create task and push in array of tasks
@@ -28,8 +33,7 @@ export const getTask = async (boardId: ITask['boardId'], taskId: ITask['id']) =>
  * @returns new task
  */
 export const createTask = async (task: ITask) => {
-  const newTask = new Task(task);
-  tasks.push(newTask);
+  const newTask = await getRepository(Task).create(task);
   return newTask;
 };
 
@@ -40,17 +44,8 @@ export const createTask = async (task: ITask) => {
  * @returns updated task or null if task not exist
  */
 export const updateTask = async (id: ITask['id'], task: ITask) => {
-  let index = null;
-  tasks.forEach((oldTask, i) => {
-    if (oldTask.id === id) {
-      index = i;
-    }
-  });
-  if (index !== null) {
-    tasks[index] = { ...tasks[index], ...task };
-    return tasks[index];
-  }
-  return null;
+  const updatedTask = await getRepository(Task).update(id, task);
+  return updatedTask;
 };
 
 /**
@@ -59,16 +54,8 @@ export const updateTask = async (id: ITask['id'], task: ITask) => {
  * @returns true - if task has been updated or false otherwise
  */
 export const deleteTask = async (id: ITask['id']) => {
-  let index = -1;
-  tasks.forEach((task, i) => {
-    if (task.id === id) {
-      index = i;
-    }
-  });
-  if (index !== -1) {
-    tasks.splice(index, 1);
-  }
-  return index !== -1;
+  const task = await getRepository(Task).delete(id);
+  return task;
 };
 
 /**
@@ -76,10 +63,8 @@ export const deleteTask = async (id: ITask['id']) => {
  * @param boardId - id of board
  */
 export const deleteBoardTasks = async (boardId: ITask['boardId']) => {
-  const boardTasks = tasks.filter((task) => task.boardId === boardId);
-  boardTasks.forEach((task) => {
-    deleteTask(task.id);
-  });
+  const tasks = await getRepository(Task).delete({ boardId });
+  return tasks;
 };
 
 /**
@@ -87,8 +72,6 @@ export const deleteBoardTasks = async (boardId: ITask['boardId']) => {
  * @param userId
  */
 export const updateDeleteUserTasks = async (userId: IUser['id']) => {
-  const userTasks = tasks.filter((task) => task.userId === userId);
-  userTasks.forEach((task) => {
-    updateTask(task.id, { ...task, userId: null });
-  });
+  const updatedTasks = getRepository(Task).update({ userId }, { userId: null });
+  return updatedTasks;
 };
