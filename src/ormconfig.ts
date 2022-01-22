@@ -13,17 +13,15 @@ const config: ConnectionOptions = {
   port: typeof DB_PORT === 'number' ? DB_PORT : 5432,
   username: POSTGRES_USER || '',
   password: POSTGRES_PASSWORD || '',
+  logging: true,
   database: POSTGRESS_DB || '',
   synchronize: true,
-  logging: true,
-  entities: [path.join(__dirname, '/**/*.model.ts')],
-  subscribers: ['src/subscriber/*.js'],
-  migrations: [path.join(__dirname, '/migrations/*.ts')],
-  cli: {
-    entitiesDir: path.join(__dirname, '/**/*.model.ts'),
-    migrationsDir: 'src/migrations',
-    subscribersDir: 'src/subscriber',
-  },
+  entities: [path.join(__dirname, 'resources/**/*.model.ts')],
+  // migrationsRun: true,
+  // migrations: ['src/migrations/*{.ts,.js}'],
+  // cli: {
+  //   migrationsDir: 'src/migrations',
+  // },
 };
 
 export default config;

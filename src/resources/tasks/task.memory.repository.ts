@@ -12,7 +12,7 @@ import Task from './task.model';
  * @returns array of tasks or emty array if tasks not exists
  */
 export const getAll = async (boardId: ITask['boardId']) => {
-  const allTasks = await getRepository(Task).find({ where: { boardId }});
+  const allTasks = await getRepository(Task).find();
   return allTasks;
 }
 
@@ -23,7 +23,7 @@ export const getAll = async (boardId: ITask['boardId']) => {
  * @returns task  of false if task not exist
  */
 export const getTask = async (boardId: ITask['boardId'], taskId: ITask['id']) => {
-  const task = await getRepository(Task).findOne({ where: { id: taskId, boardId } });
+  const task = await getRepository(Task).findOne(taskId);
   return task;
 }
 
@@ -33,7 +33,7 @@ export const getTask = async (boardId: ITask['boardId'], taskId: ITask['id']) =>
  * @returns new task
  */
 export const createTask = async (task: ITask) => {
-  const newTask = await getRepository(Task).create(task);
+  const newTask = await getRepository(Task).insert(task);
   return newTask;
 };
 
@@ -72,6 +72,6 @@ export const deleteBoardTasks = async (boardId: ITask['boardId']) => {
  * @param userId
  */
 export const updateDeleteUserTasks = async (userId: IUser['id']) => {
-  const updatedTasks = getRepository(Task).update({ userId }, { userId: null });
+  const updatedTasks = getRepository(Task).update({ userId }, { userId: undefined });
   return updatedTasks;
 };

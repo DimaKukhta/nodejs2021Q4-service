@@ -1,22 +1,21 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { v4 } from 'uuid';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Task from '../tasks/task.model';
+import { IBoard } from './board.interface';
+import BoardColumn from './column.model';
 
 @Entity()
-class Board {
-  @PrimaryColumn('uuid')
-  id: string;
+class Board implements IBoard {
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @Column('varchar')
-  title: string;
+  title!: string;
 
-  @Column('json')
-  columns: Array<string>;
+  @OneToMany(() => BoardColumn, (column) => column.board)
+  columns!: BoardColumn[];
 
-  constructor({ id = v4(), title = 'Board1', columns = new Array<string>()} = {}) {
-    this.id = id;
-    this.title = title;
-    this.columns = columns;
-  }
+  @OneToMany(() => Task, (task) => task.boardId)
+  tasks!: Task[];
 }
 
 export default Board;

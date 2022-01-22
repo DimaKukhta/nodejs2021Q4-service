@@ -36,7 +36,7 @@ const boardRouter = (
   /**
    * Should create new board and send it
    */
-  fastify.post<{ Params: IParams, Body: IBoard }>('/boards', async (req, reply) => {
+  fastify.post<{ Body: IBoard }>('/boards', async (req, reply) => {
     const board = await boardsService.createBoard(req.body);
     if (board) {
       reply.code(201);

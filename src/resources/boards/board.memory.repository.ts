@@ -28,7 +28,7 @@ export const getBoard = async (id: IBoard['id']) => {
  * @returns new board
  */
 export const createBoard = async (newBoard: IBoard) => {
-  const board = await getRepository(Board).save(newBoard);
+  const board = await getRepository(Board).insert(newBoard);
   return board;
 };
 
