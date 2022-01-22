@@ -1689,3 +1689,4 @@
 {"level":30,"time":1642334259236,"pid":15536,"hostname":"dkukhtapc","msg":"Server listening at http://127.0.0.1:4000"}
 {"level":30,"time":1642341088282,"pid":42,"hostname":"5e2cfcaadcea","msg":"Server listening at http://127.0.0.1:4000"}
 {"level":30,"time":1642341280129,"pid":64,"hostname":"5e2cfcaadcea","msg":"Server listening at http://127.0.0.1:4000"}
+{"level":50,"time":1642781451288,"pid":3128,"hostname":"dkukhtapc","err":{"type":"Error","message":"connect ECONNREFUSED 192.168.0.140:5432","stack":"Error: connect ECONNREFUSED 192.168.0.140:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)","errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.0.140","port":5432},"msg":"connect ECONNREFUSED 192.168.0.140:5432"}

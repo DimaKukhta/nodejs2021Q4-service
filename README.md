@@ -71,6 +71,15 @@ Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
 
+github:
+
+```
+
+git clone https://github.com/DimaKukhta/nodejs2021Q4-service.git
+
+git checkout typeorm
+```
+
 Docker
 
 for setup

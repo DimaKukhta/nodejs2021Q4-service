@@ -32,3 +32,4 @@
 {"level":50,"time":1642330935249,"pid":11728,"hostname":"dkukhtapc","msg":null}
 {"level":50,"time":1642330945718,"pid":5536,"hostname":"dkukhtapc","msg":null}
 {"level":50,"time":1642333739857,"pid":4392,"hostname":"dkukhtapc","msg":null}
+{"level":50,"time":1642781451288,"pid":3128,"hostname":"dkukhtapc","err":{"type":"Error","message":"connect ECONNREFUSED 192.168.0.140:5432","stack":"Error: connect ECONNREFUSED 192.168.0.140:5432\n    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)","errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.0.140","port":5432},"msg":"connect ECONNREFUSED 192.168.0.140:5432"}
