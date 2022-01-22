@@ -1,21 +1,21 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import Task from '../tasks/task.model';
-import { IBoard } from './board.interface';
-import BoardColumn from './column.model';
+import OrmTask from '../tasks/task.model';
+import { IBoard } from './board.inteface';
+import OrmColumn from './column.model';
 
 @Entity()
-class Board implements IBoard {
+class OrmBoard implements IBoard {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column('varchar')
+  @Column()
   title!: string;
 
-  @OneToMany(() => BoardColumn, (column) => column.board)
-  columns!: BoardColumn[];
+  @Column('json', { nullable: true })
+  columns!: [OrmColumn];
 
-  @OneToMany(() => Task, (task) => task.boardId)
-  tasks!: Task[];
+  @OneToMany(() => OrmTask, (task) => task.boardId)
+  tasks!: OrmTask[];
 }
 
-export default Board;
+export default OrmBoard;

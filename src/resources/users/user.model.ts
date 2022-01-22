@@ -1,32 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { IUser } from "./user.interface";
-import 'reflect-metadata';
-import Task from '../tasks/task.model';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import OrmTask from '../tasks/task.model';
+import { IUser } from './user.interface';
 
 @Entity()
-export default class User {
+class OrmUser implements IUser {
   @PrimaryGeneratedColumn('uuid')
-  id!: IUser['id'];
+  id!: string;
 
-  @Column({ length: 50, type: 'varchar' })
-  name!: IUser['name'];
+  @Column()
+  name!: string;
 
-  @Column({ length: 50, type: 'varchar' })
-  login!: IUser['login'];
+  @Column()
+  login!: string;
 
-  @Column({ length: 50, type: 'varchar' })
-  password!: IUser['password'];
+  @Column()
+  password!: string;
 
-  @OneToMany(() => Task, (task) => task.userId)
-  tasks!: Task[];
-
-  /**
-   * Should hidden password field from user instance
-   * @param user - instance of the User class
-   * @returns Object<{id, name, login}>
-   */
-  static toResponse(user: IUser) {
-    const { id, name, login }: IUser = user;
-    return { id, name, login };
-  }
+  @OneToMany(() => OrmTask, (task) => task.userId)
+  tasks!: OrmTask[];
 }
+
+export default OrmUser;

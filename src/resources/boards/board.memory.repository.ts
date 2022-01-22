@@ -1,14 +1,13 @@
-import { getRepository } from "typeorm";
-import { IBoard } from "./board.interface";
-
-import Board from './board.model';
+import { getRepository } from 'typeorm';
+import { IBoard } from './board.inteface';
+import OrmBoard from './board.model';
 
 /**
  * Should get array of boards
  * @returns array of boards or empty array
  */
-export const getAll = async () => {
-  const allBoards = await getRepository(Board).find();
+ const getAll = async () => {
+  const allBoards = await getRepository(OrmBoard).find();
   return allBoards;  
 };
 
@@ -17,8 +16,8 @@ export const getAll = async () => {
  * @param id - board Id
  * @returns board
  */
-export const getBoard = async (id: IBoard['id']) => {
-  const board = await getRepository(Board).findOne(id);
+ const getBoard = async (id: IBoard['id']) => {
+  const board = await getRepository(OrmBoard).findOne(id);
   return board;
 };
 
@@ -27,8 +26,8 @@ export const getBoard = async (id: IBoard['id']) => {
  * @param newBoard - data for new board
  * @returns new board
  */
-export const createBoard = async (newBoard: IBoard) => {
-  const board = await getRepository(Board).insert(newBoard);
+ const createBoard = async (newBoard: IBoard) => {
+  const board = await getRepository(OrmBoard).insert(newBoard);
   return board;
 };
 
@@ -38,8 +37,8 @@ export const createBoard = async (newBoard: IBoard) => {
  * @param board 
  * @returns updated board or null
  */
-export const updateBoard = async (id: IBoard['id'], board: IBoard) => {
-  const updatedBoard = await getRepository(Board).update(id, board);
+ const updateBoard = async (id: IBoard['id'], board: IBoard) => {
+  const updatedBoard = await getRepository(OrmBoard).update(id, board);
   return updatedBoard;
 };
 
@@ -48,7 +47,15 @@ export const updateBoard = async (id: IBoard['id'], board: IBoard) => {
  * @param boardId 
  * @returns true if board has been deleted or false otherwise
  */
-export const deleteBoard = async (boardId: IBoard['id']) => {
-  const board = await getRepository(Board).delete(boardId);
+ const deleteBoard = async (boardId: IBoard['id']) => {
+  const board = await getRepository(OrmBoard).delete(boardId);
   return board;
+};
+
+export default {
+  getAll,
+  getBoard,
+  createBoard,
+  updateBoard,
+  deleteBoard,
 };

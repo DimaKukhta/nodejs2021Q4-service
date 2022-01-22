@@ -1,41 +1,63 @@
-import { IUser } from "./user.interface";
-
-import * as usersRepo from './user.memory.repository';
-import * as tasksService from '../tasks/task.service';
-/**
- * Should return function from usersRepo to get all users
- * @returns Function: () => Promise<IUser[]>
- */
-export const getAll = () => usersRepo.getAll();
+/* eslint-disable no-return-await */
+import usersRepo from './user.memory.repository';
+import taskServiceUser from '../tasks/task.service';
+import OrmUser from './user.model';
+import { IUser } from './user.interface';
 
 /**
- * Should return function from usersRepo to get a user by id
- * @param id - user id
- * @returns Function: () => Promise<IUser | undefined>
+ * Intermediate function
+ * Called function getUsersAll(return array users)
+ * @returns the results work function getUsersAll, (array users)
  */
-export const getUser = (id: IUser['id']) => usersRepo.getUser(id);
+const getUsersAllService = async (): Promise<object> =>
+  await usersRepo.getAll();
 
 /**
- * Should return function from userRepo to create new User
- * @param user - user data for function from users repository
- * @returns Function: () => Promise<User>
+ * Intermediate function
+ * Called function getUserId with argument userId(return object user)
+ * @param userID -first argument ID user
+ * @returns the result work function getUserId, (object user)
  */
-export const createUser = (user: IUser) => usersRepo.createUser(user);
+const getUserIdService = async (userId: string): Promise<object | undefined> =>
+  await usersRepo.getUser(userId);
 
 /**
- * Should return function from userRepo to update user
- * @param id - user id
- * @param user - user data for update
- * @returns Function: () => Promise<false | IUser>
+ * Intermediate function
+ * Called function addUser with argument user(add new user in array users)
+ * @param user -first argument new user
+ * @returns void
  */
-export const updateUser = (id: IUser['id'], user: IUser) => usersRepo.updateUser(id, user);
+const addUserService = async (newUser: OrmUser) => {
+  await usersRepo.createUser(newUser);
+};
 
 /**
- * Should update users and return function from userRepo to delete user
- * @param id - user Id
- * @returns Function: () => Promise<boolean>
+ * Intermediate function
+ * Called function updateUser with arguments userId and updUser(update object user with ID user equal userID)
+ * @param userID -first argument ID user
+ * @param updUser -second argument object update user(updUser)
+ * @returns void
  */
-export const deleteUser = async (id: IUser['id']) => {
-    await tasksService.updateDeleteUserTasks(id);
-    return usersRepo.deleteUser(id)
-}
+const updateUserService = async (userId: string, updUser: IUser) => {
+  await usersRepo.updateUser(userId, updUser);
+};
+
+/**
+ * Intermediate function
+ * Called function deleteUser with argument userId(delete object user with ID user equal userID).
+ * Called function updateUserIdService with argument userId(update field userID at object task on null)
+ * @param userID -first argument ID user
+ * @returns void
+ */
+const deleteUserService = async (userId: string) => {
+  await usersRepo.deleteUser(userId);
+  await taskServiceUser.updateUserIdService(userId);
+};
+
+export default {
+  getUsersAllService,
+  getUserIdService,
+  addUserService,
+  updateUserService,
+  deleteUserService,
+};

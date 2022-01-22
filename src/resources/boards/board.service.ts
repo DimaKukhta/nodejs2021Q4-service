@@ -1,42 +1,63 @@
-import { IBoard } from "./board.interface";
-
-import * as boardsRepo from './board.memory.repository';
-import * as tasksService from '../tasks/task.service';
-
-/**
- * Should return function from boardsRepo to get all boards
- * @returns Function: () => Promise<IBoard[]>
- */
-export const getAll = () => boardsRepo.getAll();
+/* eslint-disable no-return-await */
+import boardsRepo from './board.memory.repository';
+import taskServiceBoard from '../tasks/task.service';
+import OrmBoard from './board.model';
 
 /**
- * Should return function from boardsRepo to get a board by id
- * @param id - board Id
- * @returns Function: () => Promise<IBoard | undefined>
+ * Intermediate function
+ * Called function getBoardsAll(return array boards)
+ * @returns the results work function getBoardsAll, (array boards)
  */
-export const getBoard = (id: IBoard['id']) => boardsRepo.getBoard(id);
+const getBoardsAllService = async (): Promise<object> =>
+  await boardsRepo.getAll();
 
 /**
- * Should return function from boardsRepo to create new board
- * @param board - data for new board
- * @returns Function: () => Promise<IBoard | undefined>
+ * Intermediate function
+ * Called function getBoardId with argument boardId(return object board)
+ * @param boardID -first argument ID board
+ * @returns the result work function getBoardId, (object board)
  */
-export const createBoard = (board: IBoard) => boardsRepo.createBoard(board);
+const getBoardIdService = async (
+  boardId: string
+): Promise<object | undefined> => await boardsRepo.getBoard(boardId);
 
 /**
- * Should return function from boardsRepo to update a board
- * @param id - board id
- * @param board - new data for board
- * @returns Function: () => Promise<IBoard | null>
+ * Intermediate function
+ * Called function addBoard with argument board(add new board in array boards)
+ * @param board -first argument new board
+ * @returns void
  */
-export const updateBoard = (id: IBoard['id'], board: IBoard) => boardsRepo.updateBoard(id, board);
+const addBoardService = async (board: OrmBoard) => {
+  await boardsRepo.createBoard(board);
+};
 
 /**
- * Should delete tasks and return function from boardsRepo to delete a board
- * @param id - board id
- * @returns Function: () => Promise<boolean>
+ * Intermediate function
+ * Called function updateBoard with arguments boardId and updBoard(update object board with ID board equal boardID)
+ * @param boardID -first argument ID board
+ * @param updBoard -second argument object update board(updBoard)
+ * @returns void
  */
-export const deleteBoard = async (id: IBoard['id']) => { 
-    await tasksService.deleteBoardTasks(id);
-    return boardsRepo.deleteBoard(id);
-}
+const updateBoardService = async (boardId: string, updBoard: OrmBoard) => {
+  await boardsRepo.updateBoard(boardId, updBoard);
+};
+
+/**
+ * Intermediate function
+ * Called function deleteBoard with argument boardId(delete object board with ID board equal boardID).
+ * Called function deleteTaskFromBoardService with argument boardId(delete object task with field boardId equal argument boardID)
+ * @param boardID -first argument ID board
+ * @returns void
+ */
+const deleteBoardService = async (boardId: string) => {
+  await boardsRepo.deleteBoard(boardId);
+  await taskServiceBoard.deleteTaskFromBoardService(boardId);
+};
+
+export default {
+  getBoardsAllService,
+  getBoardIdService,
+  addBoardService,
+  deleteBoardService,
+  updateBoardService,
+};

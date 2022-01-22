@@ -1,10 +1,10 @@
 import fastify from 'fastify';
 import { isHttpError } from 'http-errors';
-import userRouter from './resources/users/user.router';
-import boardRouter from './resources/boards/board.router';
-import taskRouter from './resources/tasks/task.router';
 import logger from './logger';
 import 'reflect-metadata';
+import userRouter from './resources/users/user.routes/user.router';
+import boardRouter from './resources/boards/board.routes/board.router';
+import taskRouter from './resources/tasks/task.routes/task.router';
 
 const app = fastify({
   logger,

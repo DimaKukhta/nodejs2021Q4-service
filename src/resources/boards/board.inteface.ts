@@ -1,5 +1,5 @@
 export interface IColumn {
-  id: string;
+  columnId: string;
   title: string;
   order: number;
 }
@@ -7,5 +7,5 @@ export interface IColumn {
 export interface IBoard {
   id: string;
   title: string;
-  columns: IColumn[],
+  columns: [IColumn];
 }

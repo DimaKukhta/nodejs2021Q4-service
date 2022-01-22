@@ -1,35 +1,34 @@
-import {
-  Entity,
-  Column,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import User from '../users/user.model';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import OrmUser from '../users/user.model';
+import { ITask } from './task.interface';
 
 @Entity()
-class Task {
+class OrmTask implements ITask {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column({ length: 50, type: 'varchar' })
+  @Column()
   title!: string;
 
-  @Column('int')
+  @Column()
   order!: number;
 
-  @Column('varchar')
+  @Column()
   description!: string;
 
-  @Column({ nullable: true })
-  columnId!: string | null;
+  @Column({ type: 'uuid', nullable: true, name: 'columnId' })
+  columnId!: string;
 
-  @Column({ nullable: true })
-  boardId!: string | null;
+  @Column({ type: 'uuid', nullable: true, name: 'boardId' })
+  boardId!: string;
 
-  @ManyToOne(() => User, (user) => user.tasks, {
+  @ManyToOne(() => OrmUser, (user) => user.tasks, {
+    eager: true,
     nullable: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   })
-  userId!: string | null;
+  userId!: string;
 }
 
-export default Task;
+export default OrmTask;

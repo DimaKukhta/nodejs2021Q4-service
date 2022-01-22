@@ -1,27 +1,29 @@
 import { getRepository } from 'typeorm';
 import { IUser } from './user.interface';
-import User from './user.model';
+import OrmUser from './user.model';
 
-export const getAll = async () => {
-  const allUser = await getRepository(User).find();
+const getAll = async () => {
+  const allUser = await getRepository(OrmUser).find();
   return allUser;
 };
+
 /**
  * Should get array of users
  * @param id - user Id
  * @returns The array of users or empty array
  */
-export const getUser = async (id: IUser['id']) => {
-  const user = await getRepository(User).findOne(id);
+ const getUser = async (id: IUser['id']) => {
+  const user = await getRepository(OrmUser).findOne(id);
   return user;
 }
+
 /**
  * Should create and push user to array of users
  * @param newUser - Data for new User - { name, login, password }
  * @returns New User
  */
-export const createUser = async (newUser: IUser) => {
-  const user = await getRepository(User).save(newUser);
+ const createUser = async (newUser: IUser) => {
+  const user = await getRepository(OrmUser).save(newUser);
   return user;
 };
 
@@ -31,8 +33,8 @@ export const createUser = async (newUser: IUser) => {
  * @param user - New User data
  * @returns updated user or false if user has not been updated
  */
-export const updateUser = async (userId: IUser['id'], user: IUser) => {
-  const updatedUser = await getRepository(User).update(userId, user);
+ const updateUser = async (userId: IUser['id'], user: IUser) => {
+  const updatedUser = await getRepository(OrmUser).update(userId, user);
   return updatedUser.raw;
 };
 
@@ -41,7 +43,15 @@ export const updateUser = async (userId: IUser['id'], user: IUser) => {
  * @param id - user id
  * @returns true - if user has been updated or false otherwise
  */
-export const deleteUser = async (userId: IUser['id']) => {
-  const deletedUser = await getRepository(User).delete(userId);
+ const deleteUser = async (userId: IUser['id']) => {
+  const deletedUser = await getRepository(OrmUser).delete(userId);
   return deletedUser;
+ }
+
+export default {
+  getAll,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
 };
