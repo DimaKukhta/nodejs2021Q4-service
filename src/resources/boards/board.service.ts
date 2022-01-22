@@ -4,27 +4,24 @@ import taskServiceBoard from '../tasks/task.service';
 import OrmBoard from './board.model';
 
 /**
- * Intermediate function
- * Called function getBoardsAll(return array boards)
- * @returns the results work function getBoardsAll, (array boards)
+ * Should return boards of the call getAll function
+ * @returns IBoard[]
  */
 const getBoardsAllService = async (): Promise<object> =>
   await boardsRepo.getAll();
 
 /**
- * Intermediate function
- * Called function getBoardId with argument boardId(return object board)
- * @param boardID -first argument ID board
- * @returns the result work function getBoardId, (object board)
+ * Should return board of the call getBoard function
+ * @param boardId - id of board
+ * @returns IBoard
  */
 const getBoardIdService = async (
   boardId: string
 ): Promise<object | undefined> => await boardsRepo.getBoard(boardId);
 
 /**
- * Intermediate function
- * Called function addBoard with argument board(add new board in array boards)
- * @param board -first argument new board
+ * Should create board of the call createBoard function
+ * @param board - board data
  * @returns void
  */
 const addBoardService = async (board: OrmBoard) => {
@@ -32,10 +29,9 @@ const addBoardService = async (board: OrmBoard) => {
 };
 
 /**
- * Intermediate function
- * Called function updateBoard with arguments boardId and updBoard(update object board with ID board equal boardID)
- * @param boardID -first argument ID board
- * @param updBoard -second argument object update board(updBoard)
+ * Should update board of the call updateBoard function
+ * @param boardId - id of board
+ * @param updBoard - new data of board
  * @returns void
  */
 const updateBoardService = async (boardId: string, updBoard: OrmBoard) => {
@@ -43,10 +39,8 @@ const updateBoardService = async (boardId: string, updBoard: OrmBoard) => {
 };
 
 /**
- * Intermediate function
- * Called function deleteBoard with argument boardId(delete object board with ID board equal boardID).
- * Called function deleteTaskFromBoardService with argument boardId(delete object task with field boardId equal argument boardID)
- * @param boardID -first argument ID board
+ * Should delete board of the call deleteBoard and deleteTaskFromBoardService functions
+ * @param boardId - id of board
  * @returns void
  */
 const deleteBoardService = async (boardId: string) => {

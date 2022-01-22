@@ -5,26 +5,23 @@ import OrmUser from './user.model';
 import { IUser } from './user.interface';
 
 /**
- * Intermediate function
- * Called function getUsersAll(return array users)
- * @returns the results work function getUsersAll, (array users)
+ * Should return all users out of the call getAll function
+ * @returns IUser[]
  */
 const getUsersAllService = async (): Promise<object> =>
   await usersRepo.getAll();
 
 /**
- * Intermediate function
- * Called function getUserId with argument userId(return object user)
- * @param userID -first argument ID user
- * @returns the result work function getUserId, (object user)
+ * Should return user by id out of the call getUser function
+ * @param userId - user id
+ * @returns IUser | undefined
  */
 const getUserIdService = async (userId: string): Promise<object | undefined> =>
   await usersRepo.getUser(userId);
 
 /**
- * Intermediate function
- * Called function addUser with argument user(add new user in array users)
- * @param user -first argument new user
+ * Should create user out of the call createUser function
+ * @param user -new user
  * @returns void
  */
 const addUserService = async (newUser: OrmUser) => {
@@ -32,10 +29,9 @@ const addUserService = async (newUser: OrmUser) => {
 };
 
 /**
- * Intermediate function
- * Called function updateUser with arguments userId and updUser(update object user with ID user equal userID)
- * @param userID -first argument ID user
- * @param updUser -second argument object update user(updUser)
+ * Should update user by id out of the call updateUser function
+ * @param userId - id of user
+ * @param updUser - new data
  * @returns void
  */
 const updateUserService = async (userId: string, updUser: IUser) => {
@@ -43,10 +39,8 @@ const updateUserService = async (userId: string, updUser: IUser) => {
 };
 
 /**
- * Intermediate function
- * Called function deleteUser with argument userId(delete object user with ID user equal userID).
- * Called function updateUserIdService with argument userId(update field userID at object task on null)
- * @param userID -first argument ID user
+ * Should delete user by id out of the call deleteUser and updateUserIdService functions
+ * @param userId - id of user
  * @returns void
  */
 const deleteUserService = async (userId: string) => {

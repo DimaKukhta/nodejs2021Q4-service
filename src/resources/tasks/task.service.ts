@@ -55,7 +55,7 @@ const deleteTaskFromBoardService = async (boardId: string) => {
 };
 
 /**
- * Should set null value in user after delete task out of the call deleteBoardTasks function
+ * Should set null value in user after delete task out of the call updateDeleteUserTasks function
  * @param userId - user id
  * @returns void
  */
