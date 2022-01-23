@@ -1,7 +1,9 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
+import bcrypt from 'bcrypt';
 import userService from '../user.service';
 import OrmUser from '../user.model';
 import { IUser } from '../user.interface';
+import { BCRYPT_SALT } from '../../../common/config';
 
 type FastifyRequestUser = FastifyRequest<{
   Body: IUser;
@@ -33,10 +35,12 @@ const addUserRouter = async (
   request: FastifyRequestUser,
   reply: FastifyReply
 ) => {
+  const salt = bcrypt.genSaltSync(Number(BCRYPT_SALT) || 10);
+  const hash = bcrypt.hashSync(request.body.password, salt); 
   const user: OrmUser = new OrmUser();
   user.name = request.body.name;
-  user.login = request.body.login;
-  user.password = request.body.password;
+  user.login = request.body.login; 
+  user.password = hash;
   await userService.addUserService(user);
   reply.code(201).send(user);
 };
@@ -79,5 +83,5 @@ export default {
   getUserIdRouter,
   addUserRouter,
   updateUserRouter,
-  deleteUserRouter,
+  deleteUserRouter
 };

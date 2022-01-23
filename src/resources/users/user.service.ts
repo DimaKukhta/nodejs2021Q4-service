@@ -20,6 +20,14 @@ const getUserIdService = async (userId: string): Promise<object | undefined> =>
   await usersRepo.getUser(userId);
 
 /**
+ * 
+ * @param login - login of user
+ * @returns IUser | undefined
+ */
+const getUserLoginService = async (login: IUser['login']) => 
+  await usersRepo.getUserbyLogin(login);
+
+/**
  * Should create user out of the call createUser function
  * @param user -new user
  * @returns void
@@ -54,4 +62,5 @@ export default {
   addUserService,
   updateUserService,
   deleteUserService,
+  getUserLoginService,
 };

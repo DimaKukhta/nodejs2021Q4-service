@@ -47,11 +47,14 @@
     ]
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
     "express": "4.17.1",
     "fastify": "^3.24.1",
+    "fastify-swagger": "^4.13.1",
     "http-errors": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
     "pino": "^7.6.1",
     "reflect-metadata": "^0.1.13",
@@ -63,7 +66,9 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
     "@microsoft/tsdoc": "^0.13.2",
+    "@types/bcrypt": "^5.0.0",
     "@types/http-errors": "^1.8.1",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^16.11.19",
     "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^5.7.0",

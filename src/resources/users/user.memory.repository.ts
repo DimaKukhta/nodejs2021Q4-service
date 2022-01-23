@@ -2,18 +2,33 @@ import { getRepository } from 'typeorm';
 import { IUser } from './user.interface';
 import OrmUser from './user.model';
 
+
+/**
+ * Should get all users
+ * @returns IUser[]
+ */
 const getAll = async () => {
   const allUser = await getRepository(OrmUser).find();
   return allUser;
 };
 
 /**
- * Should get array of users
+ * Should get user by id
  * @param id - user Id
  * @returns The array of users or empty array
  */
  const getUser = async (id: IUser['id']) => {
   const user = await getRepository(OrmUser).findOne(id);
+  return user;
+}
+
+/**
+ * Should get user by login
+ * @param login - login of user
+ * @returns IUser | undefined
+ */
+const getUserbyLogin = async (login: IUser['login']) => {
+  const user = await getRepository(OrmUser).findOne({ login });
   return user;
 }
 
@@ -54,4 +69,5 @@ export default {
   createUser,
   updateUser,
   deleteUser,
+  getUserbyLogin,
 };
