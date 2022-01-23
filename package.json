@@ -7,12 +7,15 @@
   },
   "type": "commonjs",
   "description": "REST service starter for RS School",
-  "main": "src/server.js",
+  "main": "src/server.ts",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "nodemon -L --exitcrash ./src/server.ts",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
+    "migrations:run": "npm run typeorm -- migration:run",
+    "migration:generate": "npm run typeorm migration:generate -- -n migration",
+    "typeorm": "npx node --require ts-node/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts"
   },
   "keywords": [
     "rs",
@@ -44,14 +47,32 @@
     ]
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
     "express": "4.17.1",
+    "fastify": "^3.24.1",
+    "fastify-swagger": "^4.13.1",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.1",
+    "pino": "^7.6.1",
+    "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "4.1.6",
+    "typeorm": "^0.2.41",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.16.5",
+    "@microsoft/tsdoc": "^0.13.2",
+    "@types/bcrypt": "^5.0.0",
+    "@types/http-errors": "^1.8.1",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "^16.11.19",
+    "@types/uuid": "^8.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
     "chai": "4.3.4",
     "debug": "4.3.2",
     "dirty-chai": "2.0.1",
@@ -65,7 +86,10 @@
     "jest": "27.3.1",
     "lint-staged": "12.0.3",
     "nodemon": "2.0.15",
+    "pino-pretty": "^7.3.0",
     "prettier": "2.4.1",
-    "supertest": "6.1.6"
+    "supertest": "6.1.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3"
   }
 }
