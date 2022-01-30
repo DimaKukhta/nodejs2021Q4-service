@@ -1,14 +1,7 @@
 module.exports = {
-  root: true,
-  env: {
-    es2020: true,
-    jasmine: true,
-    jest: true,
-    node: true,
-  },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
   parserOptions: {
+    project: 'tsconfig.json',
     sourceType: 'module',
     ecmaVersion: 2021,
     ecmaFeatures: {
@@ -29,27 +22,22 @@ module.exports = {
       tryExtensions: ['.js', '.json', '.node', '.ts', '.cjs'],
     },
   },
+  plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
-    'eslint:recommended',
-    'plugin:node/recommended',
-    'airbnb-base',
-    'prettier',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
   ],
+  root: true,
+  env: {
+    node: true,
+    jest: true,
+    es2020: true,
+    jasmine: true,
+  },
+  ignorePatterns: ['.eslintrc.js'],
   rules: {
-    'import/extensions': 'off',
-    'linebreak-style': 'off',
-    'node/no-unsupported-features/es-syntax': 'off',
-    'no-underscore-dangle': 'off',
-    'import/prefer-default-export': 'off',
-    'no-array-constructor': 'off',
-    'node/no-missing-require': [
-      'error',
-      {
-        allowModules: ['electron'],
-        resolvePaths: ['/node_modules'],
-        tryExtensions: ['.js', '.json', '.node', '.ts', '.cjs'],
-      },
-    ],
-
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 };
