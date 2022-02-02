@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IColumn } from '../interface';
 
 @Entity()
 export class Board {
@@ -9,5 +10,5 @@ export class Board {
   title: string;
 
   @Column({ type: 'json', nullable: true })
-  columns: any[];
+  columns: IColumn[];
 }
