@@ -6,12 +6,14 @@ import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ConfigModule } from '@nestjs/config';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
     UsersModule,
     BoardsModule,
     TasksModule,
+    LoginModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
