@@ -1,10 +1,11 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { P } from 'pino';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -35,15 +36,27 @@ export class UsersService implements OnModuleInit {
     return this.usersRepository.find();
   }
 
-  findOne(id: string) {
-    return this.usersRepository.findOne(id);
+  async findOne(id: string) {
+    const user = this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return user;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException(user);
+    }
     return this.usersRepository.update(id, updateUserDto);
   }
 
-  remove(id: string) {
-    return this.usersRepository.delete(id);
+  async remove(id: string) {
+    const user = await this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return this.usersRepository.remove(user);
   }
 }

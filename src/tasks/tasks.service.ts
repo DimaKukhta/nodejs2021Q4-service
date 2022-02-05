@@ -27,11 +27,19 @@ export class TasksService {
     return task;
   }
 
-  update(id: string, updateTaskDto: UpdateTaskDto) {
+  async update(id: string, updateTaskDto: UpdateTaskDto) {
+    const task = this.tasksRepository.findOne(id);
+    if (!task) {
+      throw new NotFoundException();
+    }
     return this.tasksRepository.update(id, updateTaskDto);
   }
 
-  remove(id: string) {
-    return this.tasksRepository.delete(id);
+  async remove(id: string) {
+    const task = await this.tasksRepository.findOne(id);
+    if (!task) {
+      throw new NotFoundException();
+    }
+    return this.tasksRepository.remove(task);
   }
 }
