@@ -6,14 +6,15 @@ export class LoggerMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 
   use(request: Request, response: Response, next: NextFunction): void {
-    const { ip, method, originalUrl, body, params, query } = request;
-    const userAgent = request.get('user-agent') || '';
+    if (process.env.USE_FASTIFY === 'false') {
+      const { ip, method, originalUrl, body, params, query } = request;
+      const userAgent = request.get('user-agent') || '';
 
-    response.on('finish', () => {
-      const { statusCode } = response;
+      response.on('finish', () => {
+        const { statusCode } = response;
 
-      this.logger.log(
-        `
+        this.logger.log(
+          `
         Request data:
         Method: ${method}
         URL: ${originalUrl}
@@ -22,9 +23,12 @@ export class LoggerMiddleware implements NestMiddleware {
         Params: ${JSON.stringify(params)}
         Query: ${JSON.stringify(query)}
         From: ${userAgent} ${ip}`,
-      );
-    });
+        );
+      });
 
-    next();
+      next();
+    } else {
+      next();
+    }
   }
 }
