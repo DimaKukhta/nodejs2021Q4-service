@@ -8,6 +8,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { ConfigModule } from '@nestjs/config';
 import { LoginModule } from './login/login.module';
 import { LoggerMiddleware } from './utils/logger.middleware';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { LoggerMiddleware } from './utils/logger.middleware';
     BoardsModule,
     TasksModule,
     LoginModule,
+    FileModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
