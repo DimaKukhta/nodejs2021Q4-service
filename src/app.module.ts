@@ -22,7 +22,7 @@ import { FileModule } from './file/file.module';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'postgres',
+      host: process.env.PGHOST || 'postgres',
       port: Number(process.env.DB_PORT) || 5432,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,

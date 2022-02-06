@@ -13,6 +13,7 @@ services:
     - postgres
     environment:
       - PORT=${PORT}
+      - PGHOST=${PGHOST}
     restart: on-failure
     volumes:
       - logs:/usr/src/app/logs
