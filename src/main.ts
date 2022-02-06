@@ -19,7 +19,11 @@ async function bootstrap() {
       logger: ['error', 'warn', 'log', 'verbose', 'debug'],
     });
   }
-  app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.PORT || 4000);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
+  await app.listen(process.env.PORT || 4000, '0.0.0.0');
 }
 bootstrap();

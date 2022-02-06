@@ -5,7 +5,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { P } from 'pino';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
